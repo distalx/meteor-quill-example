@@ -1,22 +1,41 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-
+import Quill from 'Quill';
 import './main.html';
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
+Template.hello.onCreated(function() {
+
+   this.quill = new ReactiveVar();
+});
+
+Template.hello.onRendered(function() {
+  var instance = this;
+
+  instance.editor = document.getElementById('editor-container');
+  instance.quill = new Quill(instance.editor, {
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['image', 'code-block']
+      ]
+    },
+    placeholder: 'Compose an epic...',
+    theme: 'snow' // or 'bubble'
+  });
+
 });
 
 Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
+
 });
 
 Template.hello.events({
   'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
+    var data = JSON.stringify(instance.quill.getContents());
+    console.log(instance.quill.getContents());
+
+    console.log(data);
+
   },
 });
