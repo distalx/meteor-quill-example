@@ -1,11 +1,13 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import Quill from 'Quill';
+import qrender from 'quill-render';
 import './main.html';
 
 Template.hello.onCreated(function() {
 
    this.quill = new ReactiveVar();
+   this.outputText = new ReactiveVar();
 });
 
 Template.hello.onRendered(function() {
@@ -27,15 +29,22 @@ Template.hello.onRendered(function() {
 });
 
 Template.hello.helpers({
+  demoText:function(){
 
+
+      return Template.instance().outputText.get();
+  }
 });
 
 Template.hello.events({
   'click button'(event, instance) {
+
+    var delta = instance.quill.getContents();
     var data = JSON.stringify(instance.quill.getContents());
-    console.log(instance.quill.getContents());
+    //console.log(delta);
+    //console.log(data);
 
-    console.log(data);
-
+    //console.log(qrender(delta.ops));
+    instance.outputText.set(qrender(delta.ops))
   },
 });
