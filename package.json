@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "meteor-node-stubs": "0.2.3",
-    "quill": "1.0.6",
     "quill-render": "1.0.5"
   }
 }
