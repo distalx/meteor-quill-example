@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import Quill from 'Quill';
+import Quill from './quill.js';
 import qrender from 'quill-render';
 import './main.html';
 
